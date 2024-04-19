@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Login & Register Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 300px;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            color: #666;
+            padding: 8px;
+            background-color: #e7e7e7;
+            border-left: 6px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1><center>LOGIN AND REGISTRATION</center></h1>
+    <h2><center>Home</center></h2>
+    <center><button onclick="fetchHome()">Fetch Home</button></center>
+    <p id="homeResult"></p>
+
+    <h2><center>Register</center></h2>
+    <center><input type="text" id="registerUsername" placeholder="Username"></center>
+    <center><input type="password" id="registerPassword" placeholder="Password"></center>
+    <center><button onclick="register()">Register</button></center>
+    <p id="registerResult"></p>
+
+    <center><h2>Login</h2></center>
+    <center><input type="text" id="loginUsername" placeholder="Username"></center>
+    <center><input type="password" id="loginPassword" placeholder="Password"></center>
+    <center><button onclick="login()">Login</button></center>
+    <p id="loginResult"></p>
+
+    <script>
+        const apiURL = 'https://deepak2003.pythonanywhere.com';
+
+        function fetchHome() {
+            fetch(apiURL + '/')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('homeResult').innerText = data.message;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function register() {
+            const username = document.getElementById('registerUsername').value;
+            const password = document.getElementById('registerPassword').value;
+            fetch(apiURL + '/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('registerResult').innerText = data.message;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            fetch(apiURL + '/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loginResult').innerText = data.message;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+</html>
